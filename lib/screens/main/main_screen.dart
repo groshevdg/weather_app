@@ -12,7 +12,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  MainScreenController _screenController = MainScreenController();
+  final MainScreenController _screenController = MainScreenController();
+
+  @override
+  void initState() {
+    _screenController.onCreateScreen();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
