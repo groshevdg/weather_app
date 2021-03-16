@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/config/strings.dart';
 import 'package:weather_app/screens/main/main_screen_controller.dart';
+import 'package:weather_app/screens/main/providers/list_provider.dart';
 import 'package:weather_app/screens/main/widgets/list_item.dart';
 import 'package:weather_app/screens/main/widgets/new_city_button.dart';
 
@@ -12,10 +14,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final MainScreenController _screenController = MainScreenController();
+  final ListStateProvider _listStateProvider = ListStateProvider();
+  MainScreenController _screenController;
 
   @override
   void initState() {
+    _screenController = MainScreenController(_listStateProvider);
     _screenController.onCreateScreen();
     super.initState();
   }
@@ -28,9 +32,17 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: Stack(
         children: [
-          ListView.builder(itemBuilder: (context, index) {
-            return WeatherListItem(cityName: "city", iconUrl: "url", temperature: "15");
-          }),
+          ChangeNotifierProvider(
+            create: (_) => _listStateProvider,
+            child: Consumer<ListStateProvider>(
+              builder: (context, state, child) {
+                return state.items == null ? Center(child: CircularProgressIndicator())
+                : ListView.builder(itemCount: state.items.length, itemBuilder: (context, index) {
+                  return WeatherListItem(cityName: state.items[index].cityName, iconUrl: "url", temperature: state.items[index].temp);
+                });
+              },
+            )
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Align(

@@ -1,9 +1,20 @@
-class WeatherInfo {
+import 'package:hive/hive.dart';
+
+part 'weather_info.g.dart';
+
+@HiveType(typeId: 0)
+class WeatherInfo extends HiveObject {
+  @HiveField(0)
   final String cityName;
+  @HiveField(1)
   final String temp;
+  @HiveField(2)
   final String feelsLike;
+  @HiveField(3)
   final String minTemp;
+  @HiveField(4)
   final String maxTemp;
+  @HiveField(5)
   final String skyState;
 
   WeatherInfo(

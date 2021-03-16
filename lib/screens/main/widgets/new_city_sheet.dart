@@ -13,6 +13,14 @@ class AddNewCityBottomSheet extends StatefulWidget {
 }
 
 class _AddNewCityBottomSheetState extends State<AddNewCityBottomSheet> {
+  final TextEditingController _editingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _editingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,10 +43,12 @@ class _AddNewCityBottomSheetState extends State<AddNewCityBottomSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(height: 80, width: MediaQuery.of(context).size.width - 100,
-                child: TextField(),
+                child: TextField(
+                  controller: _editingController,
+                ),
                 margin: EdgeInsets.only(left: AppTheme.defaultMargin / 2),
               ),
-              IconButton(icon: Icon(Icons.navigate_next), onPressed: () => widget.controller.onSubmitButtonClick())
+              IconButton(icon: Icon(Icons.navigate_next), onPressed: () => widget.controller.onSubmitButtonClick(context, _editingController.text))
             ],
           ),
           Text(Strings.error)
