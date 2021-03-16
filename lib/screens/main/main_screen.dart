@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/config/strings.dart';
-import 'package:weather_app/screens/main/main_screen_controller.dart';
 import 'package:weather_app/screens/main/providers/list_provider.dart';
 import 'package:weather_app/screens/main/widgets/list_item.dart';
 import 'package:weather_app/screens/main/widgets/new_city_button.dart';
+
+import 'main_screen_controller.dart';
 
 class MainScreen extends StatefulWidget {
   static const route = "main";
@@ -36,12 +37,31 @@ class _MainScreenState extends State<MainScreen> {
             create: (_) => _listStateProvider,
             child: Consumer<ListStateProvider>(
               builder: (context, state, child) {
-                return state.items == null ? Center(child: CircularProgressIndicator())
-                : ListView.builder(itemCount: state.items.length, itemBuilder: (context, index) {
-                  return WeatherListItem(cityName: state.items[index].cityName, iconUrl: "url", temperature: state.items[index].temp);
-                });
-              },
-            )
+                if (state.items == null) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                else if (state.items.isEmpty) {
+                  return Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Spacer(),
+                        Text(Strings.initial_load_error),
+                        RaisedButton(onPressed: () => _screenController.onCreateScreen(), child: Text(Strings.retry)),
+                        Spacer()
+                      ],
+                    ),
+                  );
+                }
+                else {
+                  return ListView.builder(itemCount: state.items.length,
+                      itemBuilder: (context, index) {
+                        return WeatherListItem(
+                            cityName: state.items[index].cityName,
+                            temperature: state.items[index].temp);
+                  });
+                }
+              })
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
