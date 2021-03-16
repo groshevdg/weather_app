@@ -7,7 +7,7 @@ class WeatherInfo extends HiveObject {
   @HiveField(0)
   final String cityName;
   @HiveField(1)
-  final String temp;
+  final int temp;
   @HiveField(2)
   final String feelsLike;
   @HiveField(3)
@@ -28,7 +28,7 @@ class WeatherInfo extends HiveObject {
   factory WeatherInfo.fromJson(Map<String, dynamic> json) {
     return WeatherInfo(
       cityName: json['name'],
-      temp: json['main']['temp'].toString(),
+      temp: (json['main']['temp'] as double).toInt(),
       feelsLike: json['main']['feels_like'].toString(),
       maxTemp: json['main']['temp_max'].toString(),
       minTemp: json['main']['temp_min'].toString(),

@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:weather_app/config/consts.dart';
+import 'package:weather_app/models/details_forecast.dart';
 import 'package:weather_app/models/weather_info.dart';
 
 class DatabaseManager {
@@ -35,6 +36,21 @@ class DatabaseManager {
     }
     else {
       return Hive.openBox(boxName);
+    }
+  }
+
+  Future<void> insertDetailsForecast(String cityName, List<DetailsForecast> forecast) async {
+    var box = await _getBox(cityName);
+    unawaited(box.put(Consts.DATA, forecast));
+  }
+
+  Future<List<DetailsForecast>> getDetailsForecast(String cityName) async {
+    var box = await _getBox(cityName);
+    if (box.containsKey(Consts.DATA)) {
+      return box.get(Consts.DATA);
+    }
+    else {
+      return null;
     }
   }
 }

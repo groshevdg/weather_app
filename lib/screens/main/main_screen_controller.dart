@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/screens/details/details_screen.dart';
 import 'package:weather_app/screens/main/main_screen_state_manager.dart';
 import 'package:weather_app/screens/main/providers/error_provider.dart';
 import 'package:weather_app/screens/main/providers/list_provider.dart';
@@ -16,8 +17,8 @@ class MainScreenController {
     _stateManager = MainScreenStateManager(_listStateProvider);
   }
 
-  void onListItemClick() {
-
+  void onListItemClick(BuildContext context, String cityName) {
+    Navigator.of(context).pushNamed(DetailsScreen.route, arguments: cityName);
   }
 
   void onAddCityButtonClick(BuildContext context) {

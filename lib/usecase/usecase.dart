@@ -1,5 +1,6 @@
 import 'package:weather_app/config/consts.dart';
 import 'package:weather_app/data/repository.dart';
+import 'package:weather_app/models/details_forecast.dart';
 import 'package:weather_app/models/result.dart';
 import 'package:weather_app/models/weather_info.dart';
 import 'package:weather_app/usecase/managers/database_manager.dart';
@@ -55,5 +56,17 @@ class UseCase {
       });
     }
     return requests;
+  }
+
+  Future<Result<List<DetailsForecast>>> getForecastForFiveDays(String cityName) async {
+    var cachedForecast = await _databaseManager.getDetailsForecast(cityName);
+    try {
+      var detailsForecast = await _repository.loadForecast(cityName);
+      await _databaseManager.insertDetailsForecast(cityName, detailsForecast);
+      return Result(isSuccessful: true, data: detailsForecast);
+    }
+    catch (e) {
+      return Result(isSuccessful: false, exception: e, data: cachedForecast);
+    }
   }
 }

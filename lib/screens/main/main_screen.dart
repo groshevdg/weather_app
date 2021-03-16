@@ -57,8 +57,9 @@ class _MainScreenState extends State<MainScreen> {
                   return ListView.builder(itemCount: state.items.length,
                       itemBuilder: (context, index) {
                         return WeatherListItem(
+                            controller: _screenController,
                             cityName: state.items[index].cityName,
-                            temperature: state.items[index].temp);
+                            temperature: state.items[index].temp.toString());
                   });
                 }
               })
