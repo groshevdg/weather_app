@@ -16,7 +16,7 @@ class DatabaseManager {
     var box = await _getBox(Consts.WEATHER_BOX);
     if (box.containsKey(Consts.DATA)) {
       List<dynamic> data = box.get(Consts.DATA);
-      return data.cast();
+      return data.cast<WeatherInfo>();
     }
     else {
       return null;
@@ -47,7 +47,8 @@ class DatabaseManager {
   Future<List<DetailsForecast>> getDetailsForecast(String cityName) async {
     var box = await _getBox(cityName);
     if (box.containsKey(Consts.DATA)) {
-      return box.get(Consts.DATA);
+      List<dynamic> list = box.get(Consts.DATA);
+      return list.cast<DetailsForecast>();
     }
     else {
       return null;

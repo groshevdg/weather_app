@@ -28,7 +28,7 @@ class WeatherInfo extends HiveObject {
   factory WeatherInfo.fromJson(Map<String, dynamic> json) {
     return WeatherInfo(
       cityName: json['name'],
-      temp: (json['main']['temp'] as double).toInt(),
+      temp: (json['main']['temp'] as double).round(),
       feelsLike: json['main']['feels_like'].toString(),
       maxTemp: json['main']['temp_max'].toString(),
       minTemp: json['main']['temp_min'].toString(),
