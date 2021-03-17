@@ -17,22 +17,21 @@ class WeatherInfo extends HiveObject {
   @HiveField(5)
   final String skyState;
 
-  WeatherInfo(
-      {this.cityName,
-      this.temp,
-      this.feelsLike,
-      this.minTemp,
-      this.maxTemp,
-      this.skyState});
+  WeatherInfo({this.cityName,
+    this.temp,
+    this.feelsLike,
+    this.minTemp,
+    this.maxTemp,
+    this.skyState});
 
   factory WeatherInfo.fromJson(Map<String, dynamic> json) {
-    return WeatherInfo(
-      cityName: json['name'],
-      temp: (json['main']['temp'] as double).round(),
-      feelsLike: json['main']['feels_like'].toString(),
-      maxTemp: json['main']['temp_max'].toString(),
-      minTemp: json['main']['temp_min'].toString(),
-      skyState: json['weather'][0]['main'].toString(),
-    );
+      return WeatherInfo(
+        cityName: json['name'],
+        temp: double.parse(json['main']['temp'].toString()).round(),
+        feelsLike: json['main']['feels_like'].toString(),
+        maxTemp: json['main']['temp_max'].toString(),
+        minTemp: json['main']['temp_min'].toString(),
+        skyState: json['weather'][0]['main'].toString(),
+      );
   }
 }
